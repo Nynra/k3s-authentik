@@ -67,6 +67,7 @@ spec:
           postgresql:
             enabled: true
             auth:
+              postgresqlPassword: ""
               existingSecret: authentik-secret
               secretKeys:
                 adminPasswordKey: postgresql-admin-password
