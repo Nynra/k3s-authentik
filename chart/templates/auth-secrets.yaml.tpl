@@ -8,20 +8,20 @@ metadata:
 spec:
   secretStoreRef:
     kind: ClusterSecretStore
-    name: {{ .Values.externalSecret.remoteSecretStore | quote }}
+    name: {{ .Values.externalAuthSecret.remoteSecretStore | quote }}
   target:
     creationPolicy: Owner
   data:
     - secretKey: postgresql-user-password
       remoteRef:
-        key: {{ .Values.externalSecret.remoteSecretName | quote }}
-        property: {{ .Values.externalSecret.postgresqlUserPasswordProperty | quote }}
+        key: {{ .Values.externalAuthSecret.remoteSecretName | quote }}
+        property: {{ .Values.externalAuthSecret.postgresqlUserPasswordProperty | quote }}
     - secretKey: postgresql-admin-password
       remoteRef:
-        key: {{ .Values.externalSecret.remoteSecretName | quote }}
-        property: {{ .Values.externalSecret.postgresqlAdminPasswordProperty | quote }}
+        key: {{ .Values.externalAuthSecret.remoteSecretName | quote }}
+        property: {{ .Values.externalAuthSecret.postgresqlAdminPasswordProperty | quote }}
     - secretKey: authentik-secret-key
       remoteRef:
-        key: {{ .Values.externalSecret.remoteSecretName | quote }}
-        property: {{ .Values.externalSecret.secretKeyProperty | quote }}
-    
+        key: {{ .Values.externalAuthSecret.remoteSecretName | quote }}
+        property: {{ .Values.externalAuthSecret.secretKeyProperty | quote }}
+
