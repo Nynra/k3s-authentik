@@ -24,8 +24,12 @@ spec:
       remoteRef:
         key: {{ .Values.externalAuthSecret.remoteSecretName | quote }}
         property: {{ .Values.externalAuthSecret.postgresqlAdminPasswordProperty | quote }}
-    - secretKey: authentik-secret-key
+    - secretKey: postgresql-replication-password
       remoteRef:
+        key: {{ .Values.externalAuthSecret.remoteSecretName | quote }}
+        property: {{ .Values.externalAuthSecret.postgresqlReplicationPasswordProperty | quote }}
+    - secretKey: authentik-secret-key
+      remoteRef: 
         key: {{ .Values.externalAuthSecret.remoteSecretName | quote }}
         property: {{ .Values.externalAuthSecret.authentikSecretKeyProperty | quote }}
 

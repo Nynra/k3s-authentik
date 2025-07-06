@@ -67,12 +67,11 @@ spec:
           postgresql:
             enabled: true
             auth:
-              username: authentik
-              database: authentik
               existingSecret: authentik-secret
               secretKeys:
                 adminPasswordKey: postgresql-admin-password
                 userPasswordKey: postgresql-user-password
+                replicationPasswordKey: postgresql-replication-password
 
           redis:
             enabled: true

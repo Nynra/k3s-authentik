@@ -18,6 +18,7 @@ externalAuthSecret:
   redisPasswordProperty: "redis-password"
   postgresqlUserPasswordProperty: "postgresql-user-password"
   postgresqlAdminPasswordProperty: "postgresql-admin-password"
+  postgresqlReplicationPasswordProperty: "postgresql-replication-password"
 
 externalSmtpSecret:
   remoteSecretName: smtp-secret
