@@ -1,3 +1,4 @@
+{{- if .Values.ingress.enabled }}
 apiVersion: traefik.containo.us/v1alpha1
 kind: Middleware
 metadata:
@@ -20,3 +21,4 @@ spec:
       - X-authentik-meta-provider
       - X-authentik-meta-app
       - X-authentik-meta-version
+{{- end }}

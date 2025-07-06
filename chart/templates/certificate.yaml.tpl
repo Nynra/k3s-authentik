@@ -1,4 +1,4 @@
-{{- if .Values.dashboard.enabled }}
+{{- if .Values.ingress.enabled }}
 apiVersion: external-secrets.io/v1
 kind: ExternalSecret
 metadata:
