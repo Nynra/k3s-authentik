@@ -2,7 +2,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: authentikApp
+  name: authentik-app
   namespace: {{ .Values.argocdNamespace | quote }}
   annotations: 
     argocd.argoproj.io/sync-wave: "2"
