@@ -15,6 +15,7 @@ externalAuthSecret:
   remoteSecretName: authentik-tls-secret
   remoteSecretStore: "kubernetes"
   authentikSecretKeyProperty: "authentik-secret-key"
+  redisPasswordProperty: "redis-password"
   postgresqlUserPasswordProperty: "postgresql-user-password"
   postgresqlAdminPasswordProperty: "postgresql-admin-password"
 

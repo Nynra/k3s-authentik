@@ -25,6 +25,11 @@ spec:
                   secretKeyRef:
                     name: authentik-secret
                     key: postgresql-user-password
+              - name: AUTHENTIC_REDIS__PASSWORD
+                valueFrom:
+                  secretKeyRef:
+                    name: authentik-secret
+                    key: redis-password
               - name: AUTHENTIK_SECRET_KEY
                 valueFrom:
                   secretKeyRef:
@@ -58,19 +63,23 @@ spec:
           server:
             ingress:
               enabled: false
-              # ingressClassName: TraefikIngress
-              # hosts:
-              #   - authentik.domain.tld
 
           postgresql:
             enabled: true
-            existingSecret: authentik-secret
-            secretKeys:
-              adminPasswordKey: postgresql-admin-password
-              userPasswordKey: postgresql-user-password
+            auth:
+              username: authentik
+              database: authentik
+              existingSecret: authentik-secret
+              secretKeys:
+                adminPasswordKey: postgresql-admin-password
+                userPasswordKey: postgresql-user-password
 
           redis:
+            enabled: true
+            auth:
               enabled: true
+              existingSecret: authentik-secret
+              existingSecretPasswordKey: redis-password
   syncPolicy:
     automated:
       prune: true
