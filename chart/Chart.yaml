@@ -3,7 +3,3 @@ name: authentikApp
 description: A Helm chart that deploys the authentik application.
 type: application
 version: "0.1.0"
-dependencies:
-- name: authentik
-  version: "2025.6.3"
-  repository: "https://charts.goauthentik.io"
