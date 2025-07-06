@@ -35,13 +35,13 @@ spec:
                 valueFrom:
                   secretKeyRef:
                     name: smtp-secret
-                    key: email-username
+                    key: smtp-username
               - name: AUTHENTIK_EMAIL_PASSWORD
                 valueFrom:
                   secretKeyRef:
                     name: smtp-secret
-                    key: email-password
-              # Some user settings 
+                    key: smtp-password
+              # Some user settings
               - name: AUTHENTIK_DEFAULT_USER_CHANGE_NAME
                 value: {{ .Values.defaultUserChangeName | quote }}
               - name: AUTHENTIK_DEFAULT_USER_CHANGE_EMAIL
