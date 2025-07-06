@@ -23,5 +23,5 @@ spec:
     - secretKey: authentik-secret-key
       remoteRef:
         key: {{ .Values.externalAuthSecret.remoteSecretName | quote }}
-        property: {{ .Values.externalAuthSecret.secretKeyProperty | quote }}
+        property: {{ .Values.externalAuthSecret.authentikSecretKeyProperty | quote }}
 
