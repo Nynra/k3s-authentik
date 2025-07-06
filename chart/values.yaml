@@ -1,0 +1,34 @@
+namespace: authentik-system
+argocdNamespace: argocd
+argocdProject: authentik
+kubernetesApiServer: https://kubernetes.default.svc
+authentikTargetRevision: "2025.6.3"
+
+# Default user settings
+defaultUserChangeName: "true" 
+defaultUserChangeEmail: "true"
+defaultUserChangeUsername: "true"
+gdprCompliance: "true"
+
+# Secrets for authentik and SMTP
+externalAuthSecret:
+  remoteSecretName: authentik-tls-secret
+  remoteSecretStore: "kubernetes"
+  authentikSecretKeyProperty: "authentik-secret-key"
+  postgresqlUserPasswordProperty: "postgresql-user-password"
+  postgresqlAdminPasswordProperty: "postgresql-admin-password"
+
+externalSmtpSecret:
+  remoteSecretName: smtp-secret
+  remoteSecretStore: "kubernetes"
+  smtpUsernameProperty: "smtp-username"
+  smtpPasswordProperty: "smtp-password"
+
+# Ingress configuration for authentik
+ingress:
+  enabled: true
+  url: authentik.domain.tld
+  externalCert:
+    name: authentik-tls
+    remoteSecretName: authentik-tls-secret
+    remoteSecretStore: "kubernetes"
