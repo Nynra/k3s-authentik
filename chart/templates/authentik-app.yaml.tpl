@@ -20,7 +20,7 @@ spec:
           global:
             env:
               # Database secrets
-              - name: AUTHENTIC_POSTGRESQL_PASSWORD
+              - name: AUTHENTIC_POSTGRESQL__PASSWORD
                 valueFrom:
                   secretKeyRef:
                     name: authentik-secret
