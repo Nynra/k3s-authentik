@@ -12,10 +12,6 @@ spec:
   target:
     creationPolicy: Owner
   data:
-    - secretKey: redis-password
-      remoteRef: 
-        key: {{ .Values.externalAuthSecret.remoteSecretName | quote }}
-        property: {{ .Values.externalAuthSecret.redisPasswordProperty | quote }}
     - secretKey: postgresql-user-password
       remoteRef:
         key: {{ .Values.externalAuthSecret.remoteSecretName | quote }}

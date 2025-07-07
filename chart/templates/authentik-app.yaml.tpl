@@ -17,19 +17,19 @@ spec:
       chart: authentik
       helm:
         values: |- 
-          global:
-            env:
+          authentik:
+            error_reporting:
+              enabled: false
+          server:
+            ingress:
+              enabled: false
+            env: 
               # Database secrets
               - name: AUTHENTIC_POSTGRESQL__PASSWORD
                 valueFrom:
                   secretKeyRef:
                     name: authentik-secret
                     key: postgresql-user-password
-              - name: AUTHENTIC_REDIS__PASSWORD
-                valueFrom:
-                  secretKeyRef:
-                    name: authentik-secret
-                    key: redis-password
               - name: AUTHENTIK_SECRET_KEY
                 valueFrom:
                   secretKeyRef:
@@ -55,19 +55,46 @@ spec:
                 value: {{ .Values.defaultUserChangeUsername | quote }}
               - name: AUTHENTIK_GDPR_COMPLIANCE
                 value: {{ .Values.gdprCompliance | quote }} 
-
-          authentik:
-            error_reporting:
-              enabled: false
-
-          server:
-            ingress:
-              enabled: false
-
+          worker:
+            env: 
+              # Database secrets
+              - name: AUTHENTIC_POSTGRESQL__PASSWORD
+                valueFrom:
+                  secretKeyRef:
+                    name: authentik-secret
+                    key: postgresql-user-password
+              - name: AUTHENTIK_SECRET_KEY
+                valueFrom:
+                  secretKeyRef:
+                    name: authentik-secret
+                    key: authentik-secret-key
+              # Email secrets
+              - name: AUTHENTIK_EMAIL_USERNAME
+                valueFrom:
+                  secretKeyRef:
+                    name: smtp-secret
+                    key: smtp-username
+              - name: AUTHENTIK_EMAIL_PASSWORD
+                valueFrom:
+                  secretKeyRef:
+                    name: smtp-secret
+                    key: smtp-password
+              # Some user settings
+              - name: AUTHENTIK_DEFAULT_USER_CHANGE_NAME
+                value: {{ .Values.defaultUserChangeName | quote }}
+              - name: AUTHENTIK_DEFAULT_USER_CHANGE_EMAIL
+                value: {{ .Values.defaultUserChangeEmail | quote }}
+              - name: AUTHENTIK_DEFAULT_USER_CHANGE_USERNAME
+                value: {{ .Values.defaultUserChangeUsername | quote }}
+              - name: AUTHENTIK_GDPR_COMPLIANCE
+                value: {{ .Values.gdprCompliance | quote }} 
           postgresql:
             enabled: true
             auth:
-              postgresqlPassword: ""
+              username: authentik
+              password: ""
+              postgresPassword: ""
+              replicationPassword: ""
               existingSecret: authentik-secret
               secretKeys:
                 adminPasswordKey: postgresql-admin-password
@@ -76,10 +103,6 @@ spec:
 
           redis:
             enabled: true
-            auth:
-              enabled: true
-              existingSecret: authentik-secret
-              existingSecretPasswordKey: redis-password
   syncPolicy:
     automated:
       prune: true
