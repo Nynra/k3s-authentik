@@ -92,9 +92,9 @@ spec:
             enabled: true
             auth:
               username: authentik
-              password: ""
-              postgresPassword: ""
-              replicationPassword: ""
+              # password: ""
+              # postgresPassword: ""
+              # replicationPassword: ""
               existingSecret: authentik-secret
               secretKeys:
                 adminPasswordKey: postgresql-admin-password
@@ -103,6 +103,10 @@ spec:
 
           redis:
             enabled: true
+            master:
+              # Instead of 8GB
+              persistence:
+                size: 1Gi
   syncPolicy:
     automated:
       prune: true
