@@ -1,36 +1,149 @@
-namespace: authentik-system
-argocdNamespace: argocd
-argocdProject: authentik
-kubernetesApiServer: https://kubernetes.default.svc
-authentikTargetRevision: "2025.6.3"
+
+# namespace: authentik-system
+# argocdNamespace: argocd
+# argocdProject: authentik
+# kubernetesApiServer: https://kubernetes.default.svc
+# authentikTargetRevision: "2025.6.3"
 
 # Default user settings
-defaultUserChangeName: "true" 
-defaultUserChangeEmail: "true"
-defaultUserChangeUsername: "true"
-gdprCompliance: "true"
+# defaultUserChangeName: "true" 
+# defaultUserChangeEmail: "true"
+# defaultUserChangeUsername: "true"
+# gdprCompliance: "true"
 
 # Secrets for authentik and SMTP
-externalAuthSecret:
-  remoteSecretName: authentik-tls-secret
-  remoteSecretStore: "kubernetes"
-  authentikSecretKeyProperty: "authentik-secret-key"
-  redisPasswordProperty: "redis-password"
-  postgresqlUserPasswordProperty: "postgresql-user-password"
-  postgresqlAdminPasswordProperty: "postgresql-admin-password"
-  postgresqlReplicationPasswordProperty: "postgresql-replication-password"
+credentials:
+  externalSecret:
+    enabled: true
+    secretName: authentik-creds
+    storeName: kubernetes
+    storeType: ClusterSecretStore
+    properties:
+      authentikSecretKey: authentik-secret-key
+      redisPassword: redis-password
+      postgresqlUserPassword: postgres-user-password
+      postgresqlAdminPassword: postgres-admin-password
+      postgresqlReplicationPassword: postgres-replication-password
 
-externalSmtpSecret:
-  remoteSecretName: smtp-secret
-  remoteSecretStore: "kubernetes"
-  smtpUsernameProperty: "smtp-username"
-  smtpPasswordProperty: "smtp-password"
+# externalSmtpSecret:
+#   remoteSecretName: smtp-secret
+#   remoteSecretStore: "kubernetes"
+#   smtpUsernameProperty: "smtp-username"
+#   smtpPasswordProperty: "smtp-password"
 
 # Ingress configuration for authentik
 ingress:
   enabled: true
   url: authentik.domain.tld
+  entrypoint: websecure
+  # middlewares:
+  #   - name: traefik-default-chain
   externalCert:
-    name: authentik-tls
-    remoteSecretName: authentik-tls-secret
-    remoteSecretStore: "kubernetes"
+    secretName: authentik-tls-secret
+    storeName: kubernetes
+    storeType: ClusterSecretStore
+
+## Globally shared configuration for authentik components.
+global:
+  # -- Provide a name in place of `authentik`
+  nameOverride: ""
+  # -- String to fully override `"authentik.fullname"`
+  fullnameOverride: ""
+  # -- A custom namespace to override the default namespace for the deployed resources.
+  namespaceOverride: ""
+  # -- Common labels for all resources.
+  additionalLabels: {}
+    # app: authentik
+
+  # -- Default priority class for all components
+  priorityClassName: ""
+
+  # -- Default node selector for all components
+  nodeSelector: {}
+
+  # -- Default tolerations for all components
+  tolerations: []
+
+  # Default affinity preset for all components
+  affinity:
+    # -- Default pod anti-affinity rules. Either: `none`, `soft` or `hard`
+    podAntiAffinity: soft
+    # Node affinity rules
+    nodeAffinity:
+      # -- Default node affinity rules. Either `none`, `soft` or `hard`
+      type: hard
+      # -- Default match expressions for node affinity
+      matchExpressions: []
+        # - key: topology.kubernetes.io/zone
+        #   operator: In
+        #   values:
+        #     - zonea
+        #     - zoneb
+
+  # -- Default [TopologySpreadConstraints] rules for all components
+  ## Ref: https://kubernetes.io/docs/concepts/workloads/pods/pod-topology-spread-constraints/
+  topologySpreadConstraints: []
+    # - maxSkew: 1
+    #   topologyKey: topology.kubernetes.io/zone
+    #   whenUnsatisfiable: DoNotSchedule
+
+authentik:
+  authentik:
+    # -- whether to create the authentik configuration secret
+    enabled: true
+
+    # email:
+    #   # -- SMTP Server emails are sent from, fully optional
+    #   host: ""
+    #   # -- SMTP server port
+    #   port: 587
+    #   # -- SMTP credentials, when left empty, no authentication will be done
+    #   username: ""
+    #   # -- SMTP credentials, when left empty, no authentication will be done
+    #   password: ""
+    #   # -- Use StartTLS. Enable either use_tls or use_ssl, they can't be enabled at the same time.
+    #   use_tls: false
+    #   # -- Use SSL. Enable either use_tls or use_ssl, they can't be enabled at the same time.
+    #   use_ssl: false
+    #   # -- Connection timeout
+    #   timeout: 30
+    #   # -- Email from address, can either be in the format "foo@bar.baz" or "authentik <foo@bar.baz>"
+    #   from: ""
+
+  postgresql:
+    enabled: true
+    auth:
+      existingSecret: authentik-creds
+  
+  redis:
+    enabled: true
+
+  server:
+    env:
+      - name: AUTHENTIK_POSTGRESQL__PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: authentik-creds
+            key: password
+      - name: AUTHENTIK_SECRET_KEY
+        valueFrom:
+          secretKeyRef:
+            name: authentik-creds
+            key: secret_key
+    ingress:
+      enabled: true
+      hosts:
+        - authentik.domain.tld
+
+  worker:
+    env:
+      - name: AUTHENTIK_POSTGRESQL__PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: authentik-creds
+            key: password
+      - name: AUTHENTIK_SECRET_KEY
+        valueFrom:
+          secretKeyRef:
+            name: authentik-creds
+            key: secret_key

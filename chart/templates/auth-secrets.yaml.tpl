@@ -1,31 +1,32 @@
+{{ if .Values.enabled }}{{- if .Values.credentials.externalSecret.enabled -}}
 apiVersion: external-secrets.io/v1
 kind: ExternalSecret
 metadata:
-  name: authentik-secret
-  namespace: {{ .Values.namespace | quote }}
+  name: authentik-creds
+  namespace: {{ .Release.Namespace | quote }}
   annotations:
     argocd.argoproj.io/sync-wave: "1"
 spec:
   secretStoreRef:
-    kind: ClusterSecretStore
-    name: {{ .Values.externalAuthSecret.remoteSecretStore | quote }}
+    kind: {{ .Values.credentials.externalSecret.storeType | quote }}
+    name: {{ .Values.credentials.externalSecret.storeName | quote }}
   target:
     creationPolicy: Owner
   data:
-    - secretKey: postgresql-user-password
+    - secretKey: password
       remoteRef:
-        key: {{ .Values.externalAuthSecret.remoteSecretName | quote }}
-        property: {{ .Values.externalAuthSecret.postgresqlUserPasswordProperty | quote }}
-    - secretKey: postgresql-admin-password
+        key: {{ .Values.credentials.externalSecret.secretName | quote }}
+        property: {{ .Values.credentials.externalSecret.properties.postgresUserPassword | quote }}
+    - secretKey: postgres-password
       remoteRef:
-        key: {{ .Values.externalAuthSecret.remoteSecretName | quote }}
-        property: {{ .Values.externalAuthSecret.postgresqlAdminPasswordProperty | quote }}
-    - secretKey: postgresql-replication-password
+        key: {{ .Values.credentials.externalSecret.secretName | quote }}
+        property: {{ .Values.credentials.externalSecret.properties.postgresAdminPassword | quote }}
+    - secretKey: replication-password
       remoteRef:
-        key: {{ .Values.externalAuthSecret.remoteSecretName | quote }}
-        property: {{ .Values.externalAuthSecret.postgresqlReplicationPasswordProperty | quote }}
-    - secretKey: authentik-secret-key
+        key: {{ .Values.credentials.externalSecret.secretName | quote }}
+        property: {{ .Values.credentials.externalSecret.properties.postgresReplicationPassword | quote }}
+    - secretKey: secret-key
       remoteRef: 
-        key: {{ .Values.externalAuthSecret.remoteSecretName | quote }}
-        property: {{ .Values.externalAuthSecret.authentikSecretKeyProperty | quote }}
-
+        key: {{ .Values.credentials.externalSecret.secretName | quote }}
+        property: {{ .Values.credentials.externalSecret.properties.authentikSecretKey | quote }}
+{{- end }}{{- end }}
