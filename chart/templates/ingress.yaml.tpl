@@ -3,7 +3,7 @@ apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
   name: authentik-ingress
-  namespace: {{ .Values.namespace }}
+  namespace: {{ .Release.Namespace | quote }}
   annotations:
     kubernetes.io/ingress.class: traefik-external
     argocd.argoproj.io/sync-wave: "3"
@@ -22,5 +22,5 @@ spec:
         - name: authentik
           port: 80
   tls:
-    secretName: {{ .Values.ingress.externalCert.name }}
+    secretName: authentik-tls-secret
 {{- end }}

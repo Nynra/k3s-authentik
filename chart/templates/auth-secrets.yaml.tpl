@@ -16,15 +16,15 @@ spec:
     - secretKey: password
       remoteRef:
         key: {{ .Values.credentials.externalSecret.secretName | quote }}
-        property: {{ .Values.credentials.externalSecret.properties.postgresUserPassword | quote }}
+        property: {{ .Values.credentials.externalSecret.properties.postgresqlUserPassword | quote }}
     - secretKey: postgres-password
       remoteRef:
         key: {{ .Values.credentials.externalSecret.secretName | quote }}
-        property: {{ .Values.credentials.externalSecret.properties.postgresAdminPassword | quote }}
+        property: {{ .Values.credentials.externalSecret.properties.postgresqlAdminPassword | quote }}
     - secretKey: replication-password
       remoteRef:
         key: {{ .Values.credentials.externalSecret.secretName | quote }}
-        property: {{ .Values.credentials.externalSecret.properties.postgresReplicationPassword | quote }}
+        property: {{ .Values.credentials.externalSecret.properties.postgresqlReplicationPassword | quote }}
     - secretKey: secret-key
       remoteRef: 
         key: {{ .Values.credentials.externalSecret.secretName | quote }}
