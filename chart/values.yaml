@@ -134,9 +134,7 @@ authentik:
             name: authentik-creds
             key: secret_key
     ingress:
-      enabled: true
-      hosts:
-        - authentik.domain.tld
+      enabled: false
 
   worker:
     env:

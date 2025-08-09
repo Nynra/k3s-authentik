@@ -14,12 +14,12 @@ spec:
     - match: Host(`{{ .Values.ingress.url }}`)
       kind: Rule
       services:
-        - name: authentik
+        - name: "{{ .Release.Name }}-authentik-server"
           port: 80
     - match: PathPrefix(`/outpost.goauthentik.io/`)
       kind: Rule
       services:
-        - name: authentik
+        - name: "{{ .Release.Name }}-authentik-server"
           port: 80
   tls:
     secretName: authentik-tls-secret
