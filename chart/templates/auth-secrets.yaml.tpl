@@ -17,7 +17,7 @@ spec:
       remoteRef:
         key: {{ .Values.credentials.externalSecret.secretName | quote }}
         property: {{ .Values.credentials.externalSecret.properties.postgresqlUserPassword | quote }}
-    - secretKey: postgres-password
+    - secretKey: postgresql-password
       remoteRef:
         key: {{ .Values.credentials.externalSecret.secretName | quote }}
         property: {{ .Values.credentials.externalSecret.properties.postgresqlAdminPassword | quote }}
