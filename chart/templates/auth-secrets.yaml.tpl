@@ -25,7 +25,7 @@ spec:
       remoteRef:
         key: {{ .Values.credentials.externalSecret.secretName | quote }}
         property: {{ .Values.credentials.externalSecret.properties.postgresqlReplicationPassword | quote }}
-    - secretKey: secret-key
+    - secretKey: secret_key
       remoteRef: 
         key: {{ .Values.credentials.externalSecret.secretName | quote }}
         property: {{ .Values.credentials.externalSecret.properties.authentikSecretKey | quote }}
