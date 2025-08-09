@@ -11,6 +11,8 @@
 # defaultUserChangeUsername: "true"
 # gdprCompliance: "true"
 
+enabled: true 
+
 # Secrets for authentik and SMTP
 credentials:
   externalSecret:
@@ -88,6 +90,7 @@ global:
     #   whenUnsatisfiable: DoNotSchedule
 
 authentik:
+  enabled: true
   authentik:
     # -- whether to create the authentik configuration secret
     enabled: true
