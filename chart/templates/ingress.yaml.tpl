@@ -16,11 +16,11 @@ spec:
       services:
         - name: "{{ .Release.Name }}-authentik-server"
           port: 80
-    - match: PathPrefix(`/outpost.goauthentik.io/`)
-      kind: Rule
-      services:
-        - name: "{{ .Release.Name }}-authentik-server"
-          port: 80
+    # - match: PathPrefix(`/outpost.goauthentik.io/`)
+    #   kind: Rule
+    #   services:
+    #     - name: "{{ .Release.Name }}-authentik-server"
+    #       port: 80
   tls:
     secretName: authentik-tls-secret
 {{- end }}
