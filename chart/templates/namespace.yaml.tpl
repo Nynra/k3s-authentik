@@ -3,5 +3,5 @@ kind: Namespace
 metadata:
   name: {{ .Release.Namespace | quote }}
   annotations:
-    argocd.argoproj.io/sync-wave: "0"
+    argocd.argoproj.io/sync-wave: "-10"
     

@@ -5,7 +5,7 @@ metadata:
   name: authentik-tls-secret
   namespace: {{ .Release.Namespace | quote }}
   annotations:
-    argocd.argoproj.io/sync-wave: "1"
+    argocd.argoproj.io/sync-wave: "-5"
 spec:
   secretStoreRef:
     kind: {{ .Values.ingress.externalCert.storeType | quote }}

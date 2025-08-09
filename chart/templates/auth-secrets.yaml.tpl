@@ -5,7 +5,7 @@ metadata:
   name: authentik-creds
   namespace: {{ .Release.Namespace | quote }}
   annotations:
-    argocd.argoproj.io/sync-wave: "1"
+    argocd.argoproj.io/sync-wave: "-5"
 spec:
   secretStoreRef:
     kind: {{ .Values.credentials.externalSecret.storeType | quote }}
