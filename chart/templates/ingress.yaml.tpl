@@ -20,7 +20,7 @@ spec:
       kind: Rule
       services:
         - name: "{{ .Release.Name }}-authentik-server"
-          port: 9000
+          port: 80
   tls:
     secretName: authentik-tls-secret
 {{- end }}
