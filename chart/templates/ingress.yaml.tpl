@@ -22,5 +22,5 @@ spec:
         - name: "{{ .Release.Name }}-authentik-server"
           port: 80
   tls:
-    secretName: authentik-tls-secret
+    secretName: authentik-tls
 {{- end }}

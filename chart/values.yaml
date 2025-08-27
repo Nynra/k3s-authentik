@@ -1,4 +1,3 @@
-
 # namespace: authentik-system
 # argocdNamespace: argocd
 # argocdProject: authentik
@@ -16,7 +15,7 @@ enabled: true
 # Secrets for authentik and SMTP
 credentials:
   externalSecret:
-    enabled: true
+    enabled: false
     secretName: authentik-creds
     storeName: kubernetes
     storeType: ClusterSecretStore
@@ -26,6 +25,10 @@ credentials:
       postgresqlUserPassword: postgres-user-password
       postgresqlAdminPassword: postgres-admin-password
       postgresqlReplicationPassword: postgres-replication-password
+  reflectedSecret:
+    enabled: true
+    originNamespace: "external-secrets"
+    originSecretName: "authentik-creds"
 
 # externalSmtpSecret:
 #   remoteSecretName: smtp-secret
@@ -40,10 +43,16 @@ ingress:
   entrypoint: websecure
   # middlewares:
   #   - name: traefik-default-chain
-  externalCert:
-    secretName: authentik-tls-secret
-    storeName: kubernetes
-    storeType: ClusterSecretStore
+  cert:
+    reflectedSecret:
+      enabled: true
+      originNamespace: "cert-manager"
+      originSecretName: "goosebutnine-nl-tls"
+    externalCert:
+      enabled: false
+      secretName: authentik-tls-secret
+      storeName: kubernetes
+      storeType: ClusterSecretStore
 
 ## Globally shared configuration for authentik components.
 global:

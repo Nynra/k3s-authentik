@@ -1,11 +1,11 @@
-{{- if .Values.ingress.enabled }}
+{{- if .Values.ingress.enabled }}{{- if .Values.ingress.cert.externalCert.enabled }}
 apiVersion: external-secrets.io/v1
 kind: ExternalSecret
 metadata:
-  name: authentik-tls-secret
+  name: authentik-tls
   namespace: {{ .Release.Namespace | quote }}
   annotations:
-    argocd.argoproj.io/sync-wave: "-5"
+    argocd.argoproj.io/sync-wave: "2"
 spec:
   secretStoreRef:
     kind: {{ .Values.ingress.externalCert.storeType | quote }}
@@ -21,4 +21,4 @@ spec:
       remoteRef:
         key: {{ .Values.ingress.externalCert.secretName | quote }}
         property: tls_key
-{{- end }}
+{{- end }}{{- end }}
