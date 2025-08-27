@@ -5,6 +5,6 @@ kind: Secret
 metadata:
   name: authentik-creds
   annotations:
-    reflector.v1.k8s.emberstack.com/reflects: "{{ credentials.reflectedSecret.originNamespace }}/{{ credentials.reflectedSecret.originSecretName }}"
+    reflector.v1.k8s.emberstack.com/reflects: "{{ .Values.credentials.reflectedSecret.originNamespace }}/{{ .Values.credentials.reflectedSecret.originSecretName }}"
     argo-cd.argoproj.io/sync-wave: "1"
 {{- end }}{{- end }}
