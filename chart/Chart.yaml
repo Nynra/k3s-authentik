@@ -5,6 +5,6 @@ type: application
 version: "0.1.0"
 dependencies:
 - name: authentik
-  version: "2025.6.4"
+  version: "2025.8.1"
   repository: https://charts.goauthentik.io/
   condition: authentik.enabled
