@@ -12,7 +12,7 @@ metadata:
 apiVersion: v1
 kind: Secret
 metadata:
-  name: {{ .Release.Name }}-outpost-tls
+  name: authentik-outpost-tls
   namespace: {{ .Release.Namespace | quote }}
   annotations:
     argocd.argoproj.io/sync-wave: "1"

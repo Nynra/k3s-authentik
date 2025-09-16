@@ -26,7 +26,7 @@ spec:
 apiVersion: external-secrets.io/v1
 kind: ExternalSecret
 metadata:
-  name: {{ .Release.Name }}-outpost-tls
+  name: authentik-outpost-tls
   namespace: {{ .Release.Namespace | quote }}
   annotations:
     argocd.argoproj.io/sync-wave: "2"
